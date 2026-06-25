@@ -1,0 +1,47 @@
+{
+  "last_run": "Initial seed — June 24, 2026",
+  "listings": {
+    "463015552": {
+      "zpid": "463015552",
+      "address": "499 W Broadway",
+      "city": "Cedarhurst",
+      "price": 995000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 1800,
+      "status": "FOR_SALE",
+      "url": "https://www.zillow.com/homedetails/499-W-Broadway-Cedarhurst-NY-11516/463015552_zpid/",
+      "listed_date": "2026-06-08",
+      "annual_tax": 8613,
+      "is_new": false
+    }
+  },
+  "pending": {
+    "31262221": {
+      "zpid": "31262221",
+      "address": "243 Allen St",
+      "city": "Lawrence",
+      "price": 825000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 1278,
+      "status": "PENDING",
+      "url": "https://www.zillow.com/homedetails/243-Allen-St-Lawrence-NY-11559/31262221_zpid/",
+      "pending_date": "06/24/2026",
+      "is_new_today": false
+    },
+    "33072834": {
+      "zpid": "33072834",
+      "address": "247 Allen St",
+      "city": "Lawrence",
+      "price": 880000,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1600,
+      "status": "PENDING",
+      "url": "https://www.zillow.com/homedetails/247-Allen-St-Lawrence-NY-11559/33072834_zpid/",
+      "pending_date": "06/20/2026",
+      "is_new_today": false
+    }
+  }
+}

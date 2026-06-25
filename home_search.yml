@@ -1,0 +1,58 @@
+name: Home Search — 3x Daily
+
+# Runs at 6am, noon, and 6pm Eastern Time
+# Eastern Daylight Time (EDT) = UTC-4
+#   6:00am EDT  = 10:00 UTC
+#  12:00pm EDT  = 16:00 UTC
+#   6:00pm EDT  = 22:00 UTC
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # 6:00 AM EDT
+    - cron: '0 16 * * *'   # 12:00 PM EDT
+    - cron: '0 22 * * *'   # 6:00 PM EDT
+  workflow_dispatch:        # Lets you run it manually from GitHub anytime
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # Needed to commit index.html back to the repo
+
+    steps:
+      # 1. Download your repo files onto the GitHub server
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      # 2. Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Install Python packages the script needs
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 lxml
+
+      # 4. Run the search script
+      - name: Run home search
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}   # Your private notification channel
+        run: python search.py
+
+      # 5. Commit the updated index.html and state back to the repo
+      - name: Commit results
+        run: |
+          git config user.name  "Home Search Bot"
+          git config user.email "bot@noreply.github.com"
+          git add index.html known_listings.json
+
+          # Only commit if something actually changed
+          if git diff --staged --quiet; then
+            echo "No file changes — skipping commit."
+          else
+            SUMMARY=$(cat run_summary.txt 2>/dev/null || echo "updated")
+            git commit -m "🏡 Search update — $SUMMARY [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            git push
+            echo "Committed and pushed."
+          fi
