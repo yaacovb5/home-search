@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Search — Cedarhurst · Woodmere · Lawrence</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f3f4f6; color: #1f2937; }
+
+  /* HEADER */
+  .site-header { background: #1e293b; color: white; padding: 20px 24px; }
+  .site-header h1 { font-size: 22px; font-weight: 700; }
+  .site-header .subtitle { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+  .last-updated { font-size: 12px; color: #64748b; margin-top: 6px; }
+
+  /* RATE TOGGLE */
+  .rate-bar { background: #0f172a; padding: 12px 24px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #1e293b; }
+  .rate-bar span { color: #94a3b8; font-size: 13px; font-weight: 500; }
+  .rate-btn { padding: 6px 16px; border: 1px solid #334155; border-radius: 20px; background: transparent; color: #cbd5e1; font-size: 13px; cursor: pointer; transition: all .15s; }
+  .rate-btn.active { background: #3b82f6; border-color: #3b82f6; color: white; }
+  .rate-btn:hover:not(.active) { background: #1e293b; }
+
+  /* PENDING BANNER */
+  .pending-banner { background: #991b1b; color: white; padding: 16px 24px; }
+  .pending-header { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .pending-list { display: flex; flex-direction: column; gap: 8px; }
+  .pending-item { display: flex; align-items: flex-start; gap: 10px; }
+  .badge { background: rgba(255,255,255,0.2); border-radius: 12px; padding: 2px 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .new-badge { background: #f59e0b; color: #1f2937; }
+  .info { font-size: 13px; line-height: 1.5; }
+  .info .date { display: block; color: rgba(255,255,255,0.75); font-size: 12px; }
+
+  /* CITY SECTIONS */
+  .city-section { padding: 24px; max-width: 1400px; margin: 0 auto; }
+  .city-header { font-size: 20px; font-weight: 700; margin-bottom: 16px; color: #1e293b; display: flex; align-items: baseline; gap: 10px; }
+  .city-header .zip { font-size: 14px; color: #6b7280; font-weight: 400; }
+  .city-header .count { font-size: 13px; color: #9ca3af; font-weight: 500; margin-left: auto; }
+
+  /* CARD GRID */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 1px solid #e5e7eb; transition: box-shadow .2s; }
+  .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+  .new-card { border: 2px solid #3b82f6; }
+
+  /* CARD HEADER */
+  .card-header { padding: 16px 16px 12px; position: relative; }
+  .new-ribbon { position: absolute; top: 12px; right: 12px; background: #3b82f6; color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; letter-spacing: .5px; }
+  .price { font-size: 22px; font-weight: 700; color: #111827; }
+  .address { font-size: 14px; color: #4b5563; margin-top: 2px; }
+  .specs { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+
+  /* MAP */
+  .card-map { border-top: 1px solid #f3f4f6; border-bottom: 1px solid #f3f4f6; overflow: hidden; }
+  .card-map iframe { display: block; }
+
+  /* CARD BODY */
+  .card-body { padding: 14px 16px; }
+  .monthly-total { font-size: 26px; font-weight: 700; color: #059669; }
+  .rate-label { font-size: 14px; color: #6b7280; font-weight: 400; }
+  .both-55 { color: #059669; }
+  .both-sep { font-size: 18px; color: #d1d5db; }
+  .both-6125 { color: #7c3aed; }
+  .down-detail { font-size: 12px; color: #6b7280; margin-top: 4px; }
+  .breakdown { margin-top: 10px; border-top: 1px solid #f3f4f6; padding-top: 10px; }
+  .breakdown-row { font-size: 12px; color: #6b7280; line-height: 1.8; }
+
+  /* CARD FOOTER */
+  .card-footer { padding: 12px 16px; border-top: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center; }
+  .tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
+  .new-tag { background: #dbeafe; color: #1d4ed8; }
+  .zillow-link { font-size: 13px; color: #3b82f6; text-decoration: none; font-weight: 500; }
+  .zillow-link:hover { text-decoration: underline; }
+
+  /* NO LISTINGS MESSAGE */
+  .no-listings { color: #9ca3af; font-size: 14px; padding: 20px 0; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>🏡 Home Search — Five Towns NY</h1>
+  <div class="subtitle">Cedarhurst 11516 · Woodmere 11598 · Lawrence 11559 · Single-family under $1,310,000</div>
+  <div class="last-updated">Last updated: June 25, 2026 at 12:21 PM UTC</div>
+</header>
+
+<div class="rate-bar">
+  <span>Monthly payment at:</span>
+  <button class="rate-btn active" id="btn-55"  onclick="setRate('55')">5.5% ARM</button>
+  <button class="rate-btn"        id="btn-6125" onclick="setRate('6125')">6.125% Fixed</button>
+  <button class="rate-btn"        id="btn-both" onclick="setRate('both')">Show Both</button>
+</div>
+
+
+  <div class="pending-banner">
+    <div class="pending-header">🚨 2 PROPERTIES NOW PENDING — No longer available</div>
+    <div class="pending-list">
+      
+      <div class="pending-item">
+        <span class="badge">Lawrence</span>
+        <div class="info">
+          <strong><a href="https://www.zillow.com/homedetails/247-Allen-St-Lawrence-NY-11559/33072834_zpid/" target="_blank" style="color:white">247 Allen St</a> — $880,000</strong>
+          <span class="date">⚡ Went pending 06/20/2026 · 4bd/2ba · 1,600 sqft</span>
+        </div>
+      </div>
+      <div class="pending-item">
+        <span class="badge">Lawrence</span>
+        <div class="info">
+          <strong><a href="https://www.zillow.com/homedetails/243-Allen-St-Lawrence-NY-11559/31262221_zpid/" target="_blank" style="color:white">243 Allen St</a> — $825,000</strong>
+          <span class="date">⚡ Went pending 06/24/2026 · 3bd/2ba · 1,278 sqft</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <section class="city-section">
+      <h2 class="city-header">Cedarhurst <span class="zip">11516</span>
+        <span class="count">1 listings</span></h2>
+      <div class="card-grid">
+        
+    <div class="card">
+      <div class="card-header">
+        
+        <div class="price">$995,000</div>
+        <div class="address">499 W Broadway, Cedarhurst</div>
+        <div class="specs">3 bed · 3 bath · 1,800 sqft · Listed 2026-06-08</div>
+      </div>
+      <div class="card-map"><iframe src="https://maps.google.com/maps?q=499%20W%20Broadway%2C%20Cedarhurst%2C%20NY%2011516&z=16&output=embed" width="100%" height="130" style="border:0;border-radius:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      <div class="card-body">
+        <div class="monthly-total">
+          <div class="amount-55 rate-55">$5,557<span class="rate-label">/mo</span></div>
+          <div class="amount-6125 rate-6125" style="display:none">$5,874<span class="rate-label">/mo</span></div>
+          <div class="amount-both rate-both" style="display:none">
+            <span class="both-55">$5,557</span>
+            <span class="both-sep"> · </span>
+            <span class="both-6125">$5,874</span>
+            <span class="rate-label">/mo</span>
+          </div>
+        </div>
+        <div class="down-detail">20% down · $199,000 · Loan $796,000</div>
+        <div class="breakdown">
+          <div class="breakdown-row rate-55">P&amp;I (5.5% ARM): $4,520/mo</div>
+          <div class="breakdown-row rate-6125" style="display:none">P&amp;I (6.125% Fixed): $4,837/mo</div>
+          <div class="breakdown-row rate-both" style="display:none">
+            P&amp;I: $4,520/mo (ARM) · $4,837/mo (Fixed)
+          </div>
+          <div class="breakdown-row">Property Tax: $718/mo ($8,613/yr)</div>
+          <div class="breakdown-row">Home Insurance: $320/mo</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        
+        <a class="zillow-link" href="https://www.zillow.com/homedetails/499-W-Broadway-Cedarhurst-NY-11516/463015552_zpid/" target="_blank">View on Zillow →</a>
+      </div>
+    </div>
+      </div>
+    </section>
+    <section class="city-section">
+      <h2 class="city-header">Woodmere <span class="zip">11598</span>
+        <span class="count">0 listings</span></h2>
+      <div class="card-grid">
+        
+      </div>
+    </section>
+    <section class="city-section">
+      <h2 class="city-header">Lawrence <span class="zip">11559</span>
+        <span class="count">0 listings</span></h2>
+      <div class="card-grid">
+        
+      </div>
+    </section>
+
+<script>
+function setRate(r) {
+  document.querySelectorAll('.amount-55').forEach(el => el.style.display = r==='55' ? '' : 'none');
+  document.querySelectorAll('.amount-6125').forEach(el => el.style.display = r==='6125' ? '' : 'none');
+  document.querySelectorAll('.amount-both').forEach(el => el.style.display = r==='both' ? '' : 'none');
+  document.querySelectorAll('.breakdown-row.rate-55').forEach(el => el.style.display = r==='55' ? '' : 'none');
+  document.querySelectorAll('.breakdown-row.rate-6125').forEach(el => el.style.display = r==='6125' ? '' : 'none');
+  document.querySelectorAll('.breakdown-row.rate-both').forEach(el => el.style.display = r==='both' ? '' : 'none');
+  ['btn-55','btn-6125','btn-both'].forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById('btn-' + r).classList.add('active');
+}
+</script>
+</body>
+</html>

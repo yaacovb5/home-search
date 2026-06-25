@@ -1,5 +1,4 @@
 {
-  "last_run": "Initial seed — June 24, 2026",
   "listings": {
     "463015552": {
       "zpid": "463015552",
@@ -43,5 +42,6 @@
       "pending_date": "06/20/2026",
       "is_new_today": false
     }
-  }
+  },
+  "last_run": "June 25, 2026 at 12:21 PM UTC"
 }
